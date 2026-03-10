@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradePro - Online Trading Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(30, 60, 114, 0.85), rgba(42, 82, 152, 0.9)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f5f7fa" width="1200" height="600"/><path fill="%23e4e7f1" d="M0 300L50 325L100 300L150 275L200 300L250 325L300 300L350 275L400 300L450 325L500 300L550 275L600 300L650 325L700 300L750 275L800 300L850 325L900 300L950 275L1000 300L1050 325L1100 300L1150 275L1200 300V600H0V300Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 10rem 0 6rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease-out 0.3s both;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ff8c00 0%, #ff5500 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            animation: fadeInUp 1s ease-out 0.6s both;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.6);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin: 4rem 0 3rem;
+            color: #1e3c72;
+            position: relative;
+            font-weight: 600;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #ff8c00, #ff5500);
+            margin: 0.8rem auto 0;
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 2.5rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: #1e3c72;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: #1e3c72;
+            font-weight: 600;
+        }
+
+        .trading-view {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            margin: 3rem 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .chart-container {
+            height: 400px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #d1e0ff 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(30, 60, 114, 0.1), rgba(42, 82, 152, 0.1));
+            z-index: 1;
+        }
+
+        .chart-placeholder {
+            font-size: 5rem;
+            z-index: 2;
+        }
+
+        .market-data {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.8rem;
+            margin-top: 2.5rem;
+        }
+
+        .stock-card {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1.8rem 1.5rem;
+            border-radius: 12px;
+            border-left: 5px solid #1e3c72;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .stock-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .stock-symbol {
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 1.2rem;
+        }
+
+        .stock-price {
+            font-size: 1.4rem;
+            margin: 0.8rem 0;
+            font-weight: 600;
+        }
+
+        .stock-change {
+            font-size: 0.95rem;
+        }
+
+        .positive {
+            color: #00b09b;
+        }
+
+        .negative {
+            color: #ff5500;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.4s;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: #4a4a8a;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-role {
+            color: #ff5500;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .faq-section {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 3rem 0;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .faq-item {
+            margin-bottom: 1.8rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.8rem;
+            transition: transform 0.3s;
+            color: #1e3c72;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+            color: #4a4a8a;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            max-width: 800px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.7rem;
+            font-weight: 500;
+            color: #1e3c72;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #d1e0ff;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.2);
+            outline: none;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(30, 60, 114, 0.4);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+            display: inline-block;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .page-section {
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .page-nav {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1.8rem;
+            border-radius: 15px;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .page-nav ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .page-nav a {
+            color: #1e3c72;
+            text-decoration: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: block;
+            text-align: center;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #d1e0ff;
+        }
+
+        .page-nav a:hover,
+        .page-nav a.active {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-color: #2a5298;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(30, 60, 114, 0.2);
+        }
+
+        .education-card {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            margin-bottom: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.4s;
+        }
+
+        .education-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+        }
+
+        .education-title {
+            font-size: 1.6rem;
+            color: #1e3c72;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+
+        .glossary-item {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1.8rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+        }
+
+        .glossary-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .glossary-term {
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .glossary-definition {
+            color: #4a4a8a;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .calculator-container {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            max-width: 600px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .calculator-result {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1.8rem;
+            border-radius: 12px;
+            margin-top: 1.8rem;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.2);
+        }
+
+        .broker-comparison {
+            overflow-x: auto;
+            margin: 2.5rem 0;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(209, 224, 255, 0.5);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            font-weight: 500;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .rating {
+            color: #ff8c00;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                📈 TradePro
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+                <li><a href="#" onclick="showPage('features')">Features</a></li>
+                <li><a href="#" onclick="showPage('markets')">Markets</a></li>
+                <li><a href="#" onclick="showPage('education')">Education</a></li>
+                <li><a href="#" onclick="showPage('tools')">Tools</a></li>
+                <li><a href="#" onclick="showPage('testimonials')">Testimonials</a></li>
+                <li><a href="#" onclick="showPage('faq')">FAQ</a></li>
+                <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Home Page -->
+    <section id="home" class="page-section active">
+        <div class="hero">
+            <div class="container">
+                <h1>Trade Smarter, Not Harder</h1>
+                <p>Join millions of traders worldwide with our advanced online trading platform. Access global markets with cutting-edge tools and real-time data.</p>
+                <a href="#" onclick="showPage('markets')" class="cta-button">Start Trading Today</a>
+            </div>
+        </div>
+
+        <section class="container">
+            <h2 class="section-title">Why Choose TradePro?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Fast Execution</h3>
+                    <p>Experience lightning-fast trade execution with our advanced technology infrastructure.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Secure Trading</h3>
+                    <p>Your investments are protected with bank-level security and encryption.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Advanced Charts</h3>
+                    <p>Professional-grade charting tools with over 100 technical indicators.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Mobile Trading</h3>
+                    <p>Trade on the go with our powerful mobile app for iOS and Android.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3 class="feature-title">Portfolio Management</h3>
+                    <p>Comprehensive tools to track and manage your investment portfolio.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3 class="feature-title">Learning Resources</h3>
+                    <p>Extensive educational materials for traders of all experience levels.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <h2 class="section-title">Live Market Data</h2>
+            <div class="trading-view">
+                <div class="chart-container">
+                    <div class="chart-placeholder">📈</div>
+                </div>
+                <div class="market-data">
+                    <div class="stock-card">
+                        <div class="stock-symbol">AAPL</div>
+                        <div class="stock-price">$178.25</div>
+                        <div class="stock-change positive">+1.25%</div>
+                    </div>
+                    <div class="stock-card">
+                        <div class="stock-symbol">GOOGL</div>
+                        <div class="stock-price">$142.80</div>
+                        <div class="stock-change positive">+0.85%</div>
+                    </div>
+                    <div class="stock-card">
+                        <div class="stock-symbol">MSFT</div>
+                        <div class="stock-price">$378.90</div>
+                        <div class="stock-change negative">-0.45%</div>
+                    </div>
+                    <div class="stock-card">
+                        <div class="stock-symbol">TSLA</div>
+                        <div class="stock-price">$245.60</div>
+                        <div class="stock-change positive">+2.10%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- About Page -->
+    <section id="about" class="page-section">
+        <section class="container">
+            <h2 class="section-title">About TradePro</h2>
+            <div style="max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                    Founded in 2015, TradePro has grown from a small startup to one of the leading online trading platforms globally. Our mission is to democratize access to financial markets by providing powerful, user-friendly trading tools to investors worldwide.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                    With over 2 million active users across 150+ countries, we offer trading in stocks, forex, commodities, cryptocurrencies, and indices. Our platform combines cutting-edge technology with regulatory compliance to ensure a safe and efficient trading experience.
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: bold; color: #667eea;">2M+</div>
+                        <div>Active Users</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: bold; color: #667eea;">150+</div>
+                        <div>Countries</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: bold; color: #667eea;">24/7</div>
+                        <div>Support</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: bold; color: #667eea;">$1B+</div>
+                        <div>Trading Volume</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Features Page -->
+    <section id="features" class="page-section">
+        <section class="container">
+            <h2 class="section-title">Platform Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Lightning Fast Execution</h3>
+                    <p>Execute trades in milliseconds with our advanced matching engine capable of handling 100,000 transactions per second.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">Bank-Level Security</h3>
+                    <p>Your funds are protected with multi-layer security including 256-bit encryption and two-factor authentication.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Cross-Platform Access</h3>
+                    <p>Trade seamlessly across desktop, web, and mobile devices with synchronized accounts and real-time updates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Advanced Analytics</h3>
+                    <p>Access real-time market data, customizable charts, and technical indicators to make informed trading decisions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3 class="feature-title">Competitive Pricing</h3>
+                    <p>Tight spreads starting from 0.1 pips and low commissions to maximize your trading profits.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Risk Management Tools</h3>
+                    <p>Protect your capital with stop-loss orders, take-profit levels, and portfolio diversification tools.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3 class="feature-title">Educational Resources</h3>
+                    <p>Comprehensive learning center with video courses, webinars, and trading guides for all skill levels.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3 class="feature-title">Social Trading</h3>
+                    <p>Copy successful traders automatically and learn from their strategies through our social trading platform.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3 class="feature-title">Real-Time Alerts</h3>
+                    <p>Stay informed with customizable price alerts, economic calendar notifications, and market news updates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3 class="feature-title">API Trading</h3>
+                    <p>Connect your algorithms and trading bots directly to our platform with our robust API infrastructure.</p>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Markets Page -->
+    <section id="markets" class="page-section">
+        <section class="container">
+            <h2 class="section-title">Available Markets</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🇺🇸</div>
+                    <h3 class="feature-title">US Stocks</h3>
+                    <p>Trade over 10,000 American stocks including Apple, Microsoft, Amazon, Tesla, and more with commission-free trading.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">Forex</h3>
+                    <p>Access 50+ currency pairs with tight spreads and high leverage for major, minor, and exotic pairs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🥇</div>
+                    <h3 class="feature-title">Commodities</h3>
+                    <p>Trade gold, silver, oil, natural gas, and agricultural products with real-time pricing and analysis.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3 class="feature-title">Cryptocurrencies</h3>
+                    <p>Buy, sell, and trade Bitcoin, Ethereum, Ripple, Litecoin, and 100+ other cryptocurrencies 24/7.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Indices</h3>
+                    <p>Invest in global indices like S&P 500, NASDAQ, FTSE 100, DAX, and more with competitive spreads.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏠</div>
+                    <h3 class="feature-title">ETFs</h3>
+                    <p>Diversify your portfolio with exchange-traded funds covering various sectors, commodities, and strategies.</p>
+                </div>
+            </div>
+            
+            <div class="trading-view">
+                <h3 style="text-align: center; margin-bottom: 2rem;">Real-Time Market Overview</h3>
+                <div class="market-data">
+                    <div class="stock-card">
+                        <div class="stock-symbol">S&P 500</div>
+                        <div class="stock-price">4,512.45</div>
+                        <div class="stock-change positive">+0.65%</div>
+                    </div>
+                    <div class="stock-card">
+                        <div class="stock-symbol">NASDAQ</div>
+                        <div class="stock-price">14,892.30</div>
+                        <div class="stock-change positive">+1.25%</div>
+                    </div>
+                    <div class="stock-card">
+                        <div class="stock-symbol">GOLD</div>
+                        <div class="stock-price">$2,034.50</div>
+                        <div class="stock-change negative">-0.15%</div>
+                    </div>
+                    <div class="stock-card">
+                        <div class="stock-symbol">BTC/USD</div>
+                        <div class="stock-price">$43,290.00</div>
+                        <div class="stock-change positive">+3.45%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Education Page -->
+    <section id="education" class="page-section">
+        <section class="container">
+            <h2 class="section-title">Trading Education</h2>
+            
+            <div class="page-nav">
+                <ul style="display: flex; flex-wrap: wrap; gap: 1rem; list-style: none;">
+                    <li><a href="#" class="active" onclick="showEducation('beginner')">Beginner</a></li>
+                    <li><a href="#" onclick="showEducation('intermediate')">Intermediate</a></li>
+                    <li><a href="#" onclick="showEducation('advanced')">Advanced</a></li>
+                </ul>
+            </div>
+
+            <div id="beginner" class="education-content">
+                <div class="education-card">
+                    <h3 class="education-title">Introduction to Trading</h3>
+                    <p>Learn the fundamentals of trading, including how markets work, different asset classes, and basic trading concepts.</p>
+                    <ul style="margin-left: 2rem; margin-top: 1rem;">
+                        <li>What is trading and how does it work?</li>
+                        <li>Understanding different markets (stocks, forex, crypto)</li>
+                        <li>Basic trading terminology explained</li>
+                        <li>Risk management fundamentals</li>
+                    </ul>
+                </div>
+                <div class="education-card">
+                    <h3 class="education-title">Technical Analysis Basics</h3>
+                    <p>Master the basics of technical analysis including chart patterns, candlestick analysis, and essential indicators.</p>
+                    <ul style="margin-left: 2rem; margin-top: 1rem;">
+                        <li>Reading candlestick charts</li>
+                        <li>Support and resistance levels</li>
+                        <li>Basic chart patterns (head and shoulders, triangles)</li>
+                        <li>Introduction to moving averages</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="intermediate" class="education-content" style="display: none;">
+                <div class="education-card">
+                    <h3 class="education-title">Advanced Technical Analysis</h3>
+                    <p>Deep dive into complex technical indicators and advanced chart patterns for more accurate predictions.</p>
+                    <ul style="margin-left: 2rem; margin-top: 1rem;">
+                        <li>RSI, MACD, and Bollinger Bands</li>
+                        <li>Fibonacci retracements and extensions</li>
+                        <li>Advanced chart patterns</li>
+                        <li>Volume analysis techniques</li>
+                    </ul>
+                </div>
+                <div class="education-card">
+                    <h3 class="education-title">Fundamental Analysis</h3>
+                    <p>Learn how to evaluate companies and assets based on financial data, news, and economic indicators.</p>
+                    <ul style="margin-left: 2rem; margin-top: 1rem;">
+                        <li>Reading financial statements</li>
+                        <li>Economic indicators impact</li>
+                        <li>Company valuation methods</li>
+                        <li>News and event analysis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="advanced" class="education-content" style="display: none;">
+                <div class="education-card">
+                    <h3 class="education-title">Algorithmic Trading</h3>
+                    <p>Develop and implement automated trading strategies using technical indicators and machine learning.</p>
+                    <ul style="margin-left: 2rem; margin-top: 1rem;">
+                        <li>Building trading algorithms</li>
+                        <li>Backtesting strategies</li>
+                        <li>Risk management systems</li>
+                        <li>API integration and automation</li>
+                    </ul>
+                </div>
+                <div class="education-card">
+                    <h3 class="education-title">Portfolio Management</h3>
+                    <p>Advanced techniques for optimizing portfolio performance and managing risk across multiple assets.</p>
+                    <ul style="margin-left: 2rem; margin-top: 1rem;">
+                        <li>Modern Portfolio Theory</li>
+                        <li>Asset allocation strategies</li>
+                        <li>Correlation analysis</li>
+                        <li>Performance attribution</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Tools Page -->
+    <section id="tools" class="page-section">
+        <section class="container">
+            <h2 class="section-title">Trading Tools & Calculators</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card" style="cursor: pointer;" onclick="showCalculator('compound')">
+                    <div class="feature-icon">📈</div>
+                    <h3 class="feature-title">Compound Interest Calculator</h3>
+                    <p>Calculate how your investments will grow over time with compound interest.</p>
+                </div>
+                <div class="feature-card" style="cursor: pointer;" onclick="showCalculator('position')">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Position Size Calculator</h3>
+                    <p>Determine the optimal position size based on your risk tolerance and account size.</p>
+                </div>
+                <div class="feature-card" style="cursor: pointer;" onclick="showCalculator('pivot')">
+                    <div class="feature-icon">📉</div>
+                    <h3 class="feature-title">Pivot Points Calculator</h3>
+                    <p>Calculate support and resistance levels using pivot points analysis.</p>
+                </div>
+                <div class="feature-card" style="cursor: pointer;" onclick="showCalculator('margin')">
+                    <div class="feature-icon">💰</div>
+                    <h3 class="feature-title">Margin Calculator</h3>
+                    <p>Calculate required margin and leverage for your trades.</p>
+                </div>
+            </div>
+
+            <div id="compound-calculator" class="calculator-container" style="display: none;">
+                <h3 style="margin-bottom: 1.5rem; text-align: center;">Compound Interest Calculator</h3>
+                <div class="form-group">
+                    <label for="initial-investment">Initial Investment ($)</label>
+                    <input type="number" id="initial-investment" value="1000" onchange="calculateCompound()">
+                </div>
+                <div class="form-group">
+                    <label for="monthly-contribution">Monthly Contribution ($)</label>
+                    <input type="number" id="monthly-contribution" value="100" onchange="calculateCompound()">
+                </div>
+                <div class="form-group">
+                    <label for="annual-return">Expected Annual Return (%)</label>
+                    <input type="number" id="annual-return" value="8" onchange="calculateCompound()">
+                </div>
+                <div class="form-group">
+                    <label for="years">Number of Years</label>
+                    <input type="number" id="years" value="10" onchange="calculateCompound()">
+                </div>
+                <div class="calculator-result" id="compound-result"></div>
+            </div>
+
+            <div id="position-calculator" class="calculator-container" style="display: none;">
+                <h3 style="margin-bottom: 1.5rem; text-align: center;">Position Size Calculator</h3>
+                <div class="form-group">
+                    <label for="account-size">Account Size ($)</label>
+                    <input type="number" id="account-size" value="10000" onchange="calculatePosition()">
+                </div>
+                <div class="form-group">
+                    <label for="risk-per-trade">Risk Per Trade (%)</label>
+                    <input type="number" id="risk-per-trade" value="2" onchange="calculatePosition()">
+                </div>
+                <div class="form-group">
+                    <label for="stop-loss-pips">Stop Loss (pips)</label>
+                    <input type="number" id="stop-loss-pips" value="50" onchange="calculatePosition()">
+                </div>
+                <div class="form-group">
+                    <label for="pip-value">Pip Value ($)</label>
+                    <input type="number" id="pip-value" value="10" onchange="calculatePosition()">
+                </div>
+                <div class="calculator-result" id="position-result"></div>
+            </div>
+
+            <div id="pivot-calculator" class="calculator-container" style="display: none;">
+                <h3 style="margin-bottom: 1.5rem; text-align: center;">Pivot Points Calculator</h3>
+                <div class="form-group">
+                    <label for="high-price">High Price</label>
+                    <input type="number" id="high-price" value="150" onchange="calculatePivot()">
+                </div>
+                <div class="form-group">
+                    <label for="low-price">Low Price</label>
+                    <input type="number" id="low-price" value="145" onchange="calculatePivot()">
+                </div>
+                <div class="form-group">
+                    <label for="close-price">Close Price</label>
+                    <input type="number" id="close-price" value="148" onchange="calculatePivot()">
+                </div>
+                <div class="calculator-result" id="pivot-result"></div>
+            </div>
+
+            <div id="margin-calculator" class="calculator-container" style="display: none;">
+                <h3 style="margin-bottom: 1.5rem; text-align: center;">Margin Calculator</h3>
+                <div class="form-group">
+                    <label for="trade-size">Trade Size (lots)</label>
+                    <input type="number" id="trade-size" value="1" onchange="calculateMargin()">
+                </div>
+                <div class="form-group">
+                    <label for="currency-pair">Currency Pair</label>
+                    <select id="currency-pair" onchange="calculateMargin()">
+                        <option value="EURUSD">EUR/USD</option>
+                        <option value="GBPUSD">GBP/USD</option>
+                        <option value="USDJPY">USD/JPY</option>
+                        <option value="AUDUSD">AUD/USD</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="leverage">Leverage</label>
+                    <select id="leverage" onchange="calculateMargin()">
+                        <option value="10">1:10</option>
+                        <option value="20">1:20</option>
+                        <option value="50">1:50</option>
+                        <option value="100" selected>1:100</option>
+                        <option value="200">1:200</option>
+                        <option value="500">1:500</option>
+                    </select>
+                </div>
+                <div class="calculator-result" id="margin-result"></div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Testimonials Page -->
+    <section id="testimonials" class="page-section">
+        <section class="container">
+            <h2 class="section-title">What Our Traders Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"TradePro has completely transformed my trading experience. The platform is incredibly intuitive, and the execution speed is unmatched. I've been able to grow my portfolio by 35% in just six months."</p>
+                    <div class="testimonial-author">Michael Johnson</div>
+                    <div class="testimonial-role">Professional Trader, 8 years experience</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"As a beginner, I was intimidated by trading at first. The educational resources and demo account helped me build confidence. Now I'm trading full-time and consistently profitable."</p>
+                    <div class="testimonial-author">Sarah Chen</div>
+                    <div class="testimonial-role">Retail Trader, 2 years experience</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The customer support is exceptional. Whenever I have questions, they respond within minutes. The platform's stability and reliability have earned my complete trust."</p>
+                    <div class="testimonial-author">David Rodriguez</div>
+                    <div class="testimonial-role">Day Trader, 5 years experience</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The advanced charting tools and technical indicators have given me a significant edge in the market. The social trading feature has also been invaluable for learning from successful traders."</p>
+                    <div class="testimonial-author">Emma Thompson</div>
+                    <div class="testimonial-role">Swing Trader, 6 years experience</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"I appreciate the transparent pricing with no hidden fees. The tight spreads and fast execution have saved me thousands in trading costs compared to other platforms."</p>
+                    <div class="testimonial-author">James Wilson</div>
+                    <div class="testimonial-role">Forex Trader, 10 years experience</div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The mobile app is just as powerful as the desktop platform. I can monitor my positions and execute trades seamlessly while traveling or away from my computer."</p>
+                    <div class="testimonial-author">Lisa Martinez</div>
+                    <div class="testimonial-role">Crypto Trader, 3 years experience</div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- FAQ Page -->
+    <section id="faq" class="page-section">
+        <section class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            
+            <div class="faq-section">
+                <div class="faq-item">
+                    <div class="faq-question">How do I get started with TradePro?</div>
+                    <div class="faq-answer">
+                        Getting started is easy! Simply click the "Sign Up" button, fill out the registration form, verify your email, and complete the KYC verification process. Once approved, you can fund your account and start trading immediately.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What are the minimum deposit requirements?</div>
+                    <div class="faq-answer">
+                        The minimum deposit varies by account type. For standard accounts, the minimum deposit is $100. Premium accounts require a minimum of $1,000 but offer additional features like lower spreads and personalized support.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How do I fund my trading account?</div>
+                    <div class="faq-answer">
+                        We support multiple funding methods including bank transfers, credit/debit cards, and popular e-wallets like PayPal, Skrill, and Neteller. All transactions are processed within 24 hours for most methods.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What are the withdrawal processing times?</div>
+                    <div class="faq-answer">
+                        Withdrawals are typically processed within 24 hours after approval. First withdrawals may take longer due to additional verification requirements. Bank transfers may take 3-5 business days to appear in your account.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Is my money safe with TradePro?</div>
+                    <div class="faq-answer">
+                        Absolutely. We maintain segregation of client funds in top-tier banks, use 256-bit SSL encryption, and are regulated by multiple financial authorities. Our platform has been independently audited and has a clean regulatory record.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What trading instruments are available?</div>
+                    <div class="faq-answer">
+                        We offer over 10,000 trading instruments including stocks, forex, commodities, cryptocurrencies, indices, and ETFs. Our product range is continuously expanding to meet trader demands.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How do your fees compare to other platforms?</div>
+                    <div class="faq-answer">
+                        We offer highly competitive pricing with spreads starting from 0.1 pips on major currency pairs. Stock trading is commission-free, and we don't charge inactivity fees. Our transparent pricing model ensures no hidden costs.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Can I trade on mobile devices?</div>
+                    <div class="faq-answer">
+                        Yes! Our mobile app is available for both iOS and Android devices. It offers all the features of our desktop platform including advanced charts, real-time data, and push notifications.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What is the maximum leverage available?</div>
+                    <div class="faq-answer">
+                        We offer flexible leverage options up to 1:500 for professional traders. However, we recommend using lower leverage to manage risk appropriately. Leverage limits may vary based on your location and account type.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="fdiv class="faq-question">Do you offer demo accounts?</div>
+                    <div class="faq-answer">
+                        Yes, we provide unlimited demo accounts with $100,000 virtual funds. This allows you to practice trading strategies and familiarize yourself with the platform without risking real money.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Contact Page -->
+    <section id="contact" class="page-section">
+        <section class="container">
+            <h2 class="section-title">Contact Us</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1000px; margin: 0 auto;">
+                <div>
+                    <h3 style="margin-bottom: 1.5rem; color: #667eea;">Get in Touch</h3>
+                    <p style="margin-bottom: 2rem; color: #666; line-height: 1.8;">
+                        Have questions about our platform? Our team is here to help you 24/5 through multiple channels.
+                    </p>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 1rem; color: #667eea;">📍 Address</h4>
+                        <p style="color: #666;">
+                            TradePro Headquarters<br>
+                            Financial District, Suite 1500<br>
+                            New York, NY 10004, USA
+                        </p>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 1rem; color: #667eea;">📞 Phone</h4>
+                        <p style="color: #666;">
+                            Support: +1 (800) 555-0123<br>
+                            Sales: +1 (800) 555-0124
+                        </p>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="margin-bottom: 1rem; color: #667eea;">✉️ Email</h4>
+                        <p style="color: #666;">
+                            Support: support@tradepro.com<br>
+                            Sales: sales@tradepro.com
+                        </p>
+                    </div>
+                </div>
+                
+                <div>
+                    <form class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="account">Account Issues</option>
+                                <option value="technical">Technical Support</option>
+                                <option value="partnership">Partnership</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required placeholder="Please describe your inquiry..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3>TradePro</h3>
+                    <p>Your trusted partner in online trading</p>
+                </div>
+                <div class="social-links">
+                    <a href="#">📧</a>
+                    <a href="#">📱</a>
+                    <a href="#">📷</a>
+                    <a href="#">🌐</a>
+                </div>
+            </div>
+            <p style="margin-top: 2rem; opacity: 0.8;">&copy; 2024 TradePro. All rights reserved. | <a href="#" style="color: white; text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: white; text-decoration: none;">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Education section navigation
+        function showEducation(level) {
+            // Hide all education content
+            document.querySelectorAll('.education-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Show selected content
+            document.getElementById(level).style.display = 'block';
+            
+            // Update active state
+            document.querySelectorAll('.page-nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Calculator functions
+        function showCalculator(type) {
+            // Hide all calculators
+            document.querySelectorAll('.calculator-container').forEach(calc => {
+                calc.style.display = 'none';
+            });
+            
+            // Show selected calculator
+            document.getElementById(type + '-calculator').style.display = 'block';
+            
+            // Initialize calculator
+            switch(type) {
+                case 'compound':
+                    calculateCompound();
+                    break;
+                case 'position':
+                    calculatePosition();
+                    break;
+                case 'pivot':
+                    calculatePivot();
+                    break;
+                case 'margin':
+                    calculateMargin();
+                    break;
+            }
+        }
+
+        function calculateCompound() {
+            const principal = parseFloat(document.getElementById('initial-investment').value) || 0;
+            const monthly = parseFloat(document.getElementById('monthly-contribution').value) || 0;
+            const rate = parseFloat(document.getElementById('annual-return').value) || 0;
+            const years = parseFloat(document.getElementById('years').value) || 0;
+            
+            const monthlyRate = rate / 100 / 12;
+            const months = years * 12;
+            
+            let total = principal;
+            let result = '';
+            
+            result += `After ${years} years:<br>`;
+            result += `Initial Investment: $${principal.toLocaleString()}<br>`;
+            result += `Total Contributions: $${(monthly * months).toLocaleString()}<br>`;
+            result += `Interest Earned: $${((total * Math.pow(1 + monthlyRate, months) - principal - monthly * months).toLocaleString())}<br>`;
+            result += `Final Value: $${(total * Math.pow(1 + monthlyRate, months) + monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate)).toLocaleString()}`;
+            
+            document.getElementById('compound-result').innerHTML = result;
+        }
+
+        function calculatePosition() {
+            const accountSize = parseFloat(document.getElementById('account-size').value) || 0;
+            const riskPerTrade = parseFloat(document.getElementById('risk-per-trade').value) || 0;
+            const stopLossPips = parseFloat(document.getElementById('stop-loss-pips').value) || 0;
+            const pipValue = parseFloat(document.getElementById('pip-value').value) || 0;
+            
+            const riskAmount = accountSize * (riskPerTrade / 100);
+            const positionSize = riskAmount / (stopLossPips * pipValue);
+            
+            let result = '';
+            result += `Risk Amount: $${riskAmount.toFixed(2)}<br>`;
+            result += `Position Size: ${positionSize.toFixed(2)} lots<br>`;
+            result += `Maximum Loss: $${riskAmount.toFixed(2)}`;
+            
+            document.getElementById('position-result').innerHTML = result;
+        }
+
+        function calculatePivot() {
+            const high = parseFloat(document.getElementById('high-price').value) || 0;
+            const low = parseFloat(document.getElementById('low-price').value) || 0;
+            const close = parseFloat(document.getElementById('close-price').value) || 0;
+            
+            const pivot = (high + low + close) / 3;
+            const r1 = 2 * pivot - low;
+            const s1 = 2 * pivot - high;
+            const r2 = pivot + (high - low);
+            const s2 = pivot - (high - low);
+            
+            let result = '';
+            result += `Pivot Point: ${pivot.toFixed(2)}<br>`;
+            result += `Resistance 1: ${r1.toFixed(2)}<br>`;
+            result += `Support 1: ${s1.toFixed(2)}<br>`;
+            result += `Resistance 2: ${r2.toFixed(2)}<br>`;
+            result += `Support 2: ${s2.toFixed(2)}`;
+            
+            document.getElementById('pivot-result').innerHTML = result;
+        }
+
+        function calculateMargin() {
+            const tradeSize = parseFloat(document.getElementById('trade-size').value) || 0;
+            const currencyPair = document.getElementById('currency-pair').value;
+            const leverage = parseFloat(document.getElementById('leverage').value) || 0;
+            
+            // Simplified margin calculation (assuming 1 lot = 100,000 units)
+            const contractSize = 100000;
+            const margin = (tradeSize * contractSize) / leverage;
+            
+            let result = '';
+            result += `Currency Pair: ${currencyPair}<br>`;
+            result += `Trade Size: ${tradeSize} lot(s)<br>`;
+            result += `Leverage: 1:${leverage}<br>`;
+            result += `Required Margin: $${margin.toLocaleString()}`;
+            
+            document.getElementById('margin-result').innerHTML = result;
+        }
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            // Show success message
+            alert(`Thank you for your message, ${data.name}! We'll get back to you within 24 hours.`);
+            
+            // Reset form
+            e.target.reset();
+        });
+
+        // Add scroll effect to header
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                header.style.background = 'rgba(30, 60, 114, 0.95)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)';
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // FAQ accordion functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
